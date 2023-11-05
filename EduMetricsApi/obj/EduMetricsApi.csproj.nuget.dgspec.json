@@ -1,0 +1,77 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\mathe\\Documents\\worspace_pessoal\\EduMetricsApi\\EduMetricsApi\\EduMetricsApi\\EduMetricsApi.csproj": {}
+  },
+  "projects": {
+    "D:\\mathe\\Documents\\worspace_pessoal\\EduMetricsApi\\EduMetricsApi\\EduMetricsApi\\EduMetricsApi.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\mathe\\Documents\\worspace_pessoal\\EduMetricsApi\\EduMetricsApi\\EduMetricsApi\\EduMetricsApi.csproj",
+        "projectName": "EduMetricsApi",
+        "projectPath": "D:\\mathe\\Documents\\worspace_pessoal\\EduMetricsApi\\EduMetricsApi\\EduMetricsApi\\EduMetricsApi.csproj",
+        "packagesPath": "C:\\Users\\mathe\\.nuget\\packages\\",
+        "outputPath": "D:\\mathe\\Documents\\worspace_pessoal\\EduMetricsApi\\EduMetricsApi\\EduMetricsApi\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\mathe\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "D:\\mathe\\Documents\\worspace_asa\\LogisticaSeller\\Martins.Vendas.GestaoMarketplace.Comum\\bin\\Debug": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
+              "target": "Package",
+              "version": "[1.17.2, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.2.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
