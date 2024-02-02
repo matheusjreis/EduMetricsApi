@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "pvEdwTZtJwc6OGS6puLUCnGibnqD/RzGxhBqBaLd2wI=",
+  "Source": "EduMetricsApi",
+  "BasePath": "_content/EduMetricsApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
