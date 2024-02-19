@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DTO\" />
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EduMetricsApi.Domain.Core\EduMetricsApi.Domain.Core.csproj" />
+    <ProjectReference Include="..\EduMetricsApi.Domain\EduMetricsApi.Domain.csproj" />
   </ItemGroup>
 
 </Project>

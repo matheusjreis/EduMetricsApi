@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EduMetricsApi.Application\EduMetricsApi.Application.csproj" />
+    <ProjectReference Include="..\EduMetricsApi.Domain.Core\EduMetricsApi.Domain.Core.csproj" />
+  </ItemGroup>
+
 </Project>

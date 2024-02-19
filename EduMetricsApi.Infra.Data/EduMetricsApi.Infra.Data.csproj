@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.16" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\src\EduMetricsApi.Domain.Core\EduMetricsApi.Domain.Core.csproj" />
+    <ProjectReference Include="..\src\EduMetricsApi.Domain\EduMetricsApi.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

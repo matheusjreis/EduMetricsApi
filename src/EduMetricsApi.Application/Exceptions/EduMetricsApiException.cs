@@ -1,8 +1,8 @@
 ﻿using EduMetricsApi.Domain.Constants;
 
-namespace EduMetricsApi.Domain.Exceptions;
+namespace EduMetricsApi.Application.Exceptions;
 
-public class EduMetricsApiException : Exception 
+public class EduMetricsApiException : Exception
 {
     public EduMetricsApiException(string message) : base(message) { }
 
@@ -10,7 +10,7 @@ public class EduMetricsApiException : Exception
     {
         public EduMetricsApiNoContentException() : base(ExceptionMessages.NO_CONTENT) { }
     }
-    
+
     public class EduMetricsApiNotFoundException : EduMetricsApiException
     {
         public EduMetricsApiNotFoundException() : base(ExceptionMessages.NOT_FOUND) { }
