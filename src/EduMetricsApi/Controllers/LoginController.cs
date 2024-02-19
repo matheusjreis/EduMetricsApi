@@ -21,6 +21,5 @@ public class LoginController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Post([FromBody] UserCredentialsDto model) => new EduMetricsApiResult(_applicationService.Add(model));
-
+    public IActionResult Post([FromBody] UserCredentialsDto model) => new EduMetricsApiResult(_applicationService.Add(model)) ;
 }
