@@ -22,13 +22,13 @@ public class UserContext : IUserContext
         }
     }
 
-    public Guid? UserId
+    public int? UserId
     {
         get
         {
             byte[]? userId = null;
             _httpContextAccessor.HttpContext?.Session.TryGetValue("userId", out userId);
-            return userId is null ? null : Guid.Parse(Encoding.UTF8.GetString(userId));
+            return userId is null ? null : int.Parse(Encoding.UTF8.GetString(userId));
         }
     }
 }

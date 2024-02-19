@@ -1,9 +1,9 @@
-﻿using EduMetricsApi.Application.Helpers;
+﻿using EduMetricsApi.Application.Exceptions;
+using EduMetricsApi.Application.Helpers;
 using EduMetricsApi.Domain.Constants;
-using EduMetricsApi.Domain.Exceptions;
 using Newtonsoft.Json;
 using System.Net;
-using static EduMetricsApi.Domain.Exceptions.EduMetricsApiException;
+using static EduMetricsApi.Application.Exceptions.EduMetricsApiException;
 
 namespace EduMetricsApi.Middlewares;
 

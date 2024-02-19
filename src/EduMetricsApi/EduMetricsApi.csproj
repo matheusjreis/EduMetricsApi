@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EduMetricsApi.Application\EduMetricsApi.Application.csproj" />
+    <ProjectReference Include="..\EduMetricsApi.CrossCutting.IOC\EduMetricsApi.CrossCutting.IOC.csproj" />
     <ProjectReference Include="..\EduMetricsApi.Domain\EduMetricsApi.Domain.csproj" />
   </ItemGroup>
 

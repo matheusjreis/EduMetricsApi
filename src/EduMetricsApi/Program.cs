@@ -1,15 +1,30 @@
+using EduMetricsApi.CrossCutting.IOC;
+using EduMetricsApi.Middlewares;
+using Microsoft.AspNetCore.Session;
+using System;
+using System.Text.Json.Serialization;
+
 var builder = WebApplication.CreateBuilder(args);
+ConfigurationIOC.LoadServices(builder.Services, builder.Configuration);
+//ConfigurationIOC.LoadDatabase(builder.Services);
+ConfigurationIOC.LoadMapper(builder.Services);
+ConfigurationIOC.LoadSwagger(builder.Services, builder.Configuration);
 
-// Add services to the container.
+builder.Services.AddControllers()
+                .AddJsonOptions(options => {
+                    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                });
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.UseCors(policy => policy.AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowAnyOrigin());
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -19,6 +34,20 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.MapControllers();
+
+app.UseSwagger();
+
+app.UseSwaggerUI();
+
+app.UseHttpsRedirection();
+
+app.UseAuthentication();
+
+app.UseAuthorization();
+
+app.UseMiddleware<HandlerExceptionApi>();
 
 app.MapControllers();
 

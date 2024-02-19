@@ -10,11 +10,17 @@ using EduMetricsApi.Domain.Services.Services;
 using EduMetricsApi.Domain.Services.Services.Base;
 using EduMetricsApi.Infra.Data.Context;
 using EduMetricsApi.Infra.Data.Repositories.Base;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Text;
 
 namespace EduMetricsApi.CrossCutting.IOC;
@@ -27,7 +33,6 @@ public static class ConfigurationIOC
         {
             config.CreateMap<UserCredentialsDto, UserCredentials>()
                   .ReverseMap();
-
         });
 
         IMapper mapper = autoMapper.CreateMapper();
@@ -37,7 +42,8 @@ public static class ConfigurationIOC
     public static void LoadServices(IServiceCollection services, IConfigurationBuilder config)
     {
         services.TryAddSingleton(config);
-        
+
+        services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         services.AddScoped<IUserContext, UserContext>();
 
         services.AddScoped(typeof(IApplicationServiceBase<,>), typeof(ApplicationServiceBase<,>));
@@ -52,7 +58,7 @@ public static class ConfigurationIOC
 
     public static void LoadDatabase(IServiceCollection services)
     {
-        var connection = Environment.GetEnvironmentVariable("ROMAP_DATABASE");
+        var connection = Environment.GetEnvironmentVariable("EDUMETRICS_DATABASE");
 
         //services.AddHealthChecks()
         //  .AddNpgSql(
@@ -73,9 +79,7 @@ public static class ConfigurationIOC
 
     public static void LoadSwagger(IServiceCollection services, IConfiguration config)
     {
-        services.AddSwaggerGen(c => c.LoadOpenApiOptions())
-                .AddAuthentication(o => o.LoadAuthenticationOptions())
-                .AddJwtBearer(o => o.LoadJwtBearerOptions(config));
+        services.AddSwaggerGen(c => c.LoadOpenApiOptions());
     }
 
     private static void LoadOpenApiOptions(this SwaggerGenOptions options)
@@ -105,21 +109,20 @@ public static class ConfigurationIOC
         };
         var contact = new OpenApiContact()
         {
-            Name = "ASA Consultoria e Serviços de Tecnologia LTDA",
-            Email = "contato@asaconsultoria.com.br",
-            Url = new Uri("mailto:contato@asaconsultoria.com.br")
+            Name = "Matheus José dos Reis",
+            Email = "matheus.reis@ufu.br",
+            Url = new Uri("mailto:matheus.reis@ufu.br")
         };
         var license = new OpenApiLicense()
         {
-            Name = "Romap Seguros License",
-            Url = new Uri("https://www.asaconsultoria.com.br/")
+            Name = "Reis License",
+            Url = new Uri("mailto:matheus.reis@ufu.br")
         };
         var info = new OpenApiInfo()
         {
             Version = "v1",
-            Title = "Romap Seguros",
-            Description = "API designed to Romap Seguros Application",
-            TermsOfService = new Uri("https://www.asaconsultoria.com.br/"),
+            Title = "EduMetrics API UFU",
+            Description = "API designed to EduMetrics API UFU",
             Contact = contact,
             License = license
         };
@@ -148,23 +151,5 @@ public static class ConfigurationIOC
             ValidateLifetime = false,
             ValidateIssuerSigningKey = true
         };
-    }
-
-    public static void LoadCronJobs(IServiceCollection services)
-    {
-        services.AddQuartz(options =>
-        {
-            var key = new JobKey("SendPackJob");
-            options.UseMicrosoftDependencyInjectionJobFactory();
-            options.AddJob<SendPack>(key);
-
-            options.AddTrigger(opts => opts
-                   .ForJob(key)
-                   .WithIdentity("SendPackJob-trigger")
-                   .StartNow()
-                   .WithCronSchedule("59 59 23 L * ? *"));
-        });
-
-        services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
     }
 }

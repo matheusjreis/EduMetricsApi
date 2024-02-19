@@ -10,7 +10,6 @@ using System.Net;
 namespace EduMetricsApi.Controllers;
 
 [ApiController]
-[Authorize]
 [Route("[controller]")]
 public class LoginController : ControllerBase
 {
@@ -20,10 +19,6 @@ public class LoginController : ControllerBase
     {
         _applicationService = applicationService;
     }
-
-    [HttpGet]
-    [Route("{id}")]
-    public IActionResult Get(int id) => new EduMetricsApiResult(_applicationService.Get(id));
 
     [HttpPost]
     public IActionResult Post([FromBody] UserCredentialsDto model) => new EduMetricsApiResult(_applicationService.Add(model));

@@ -2,6 +2,7 @@
 using EduMetricsApi.Application.Interfaces;
 using EduMetricsApi.Domain.Core.Services.Base;
 using System.Linq.Expressions;
+using static EduMetricsApi.Application.Exceptions.EduMetricsApiException;
 
 namespace EduMetricsApi.Application;
 
@@ -32,18 +33,7 @@ public class ApplicationServiceBaseGeneric<T, Z> : IApplicationServiceBaseGeneri
         var entity = _service.Get();
         if (entity is null || !entity.Any())
         {
-            throw new ApplicationNoContentException();
-        }
-
-        return _mapper.Map<ICollection<T>, ICollection<Z>>(entity);
-    }
-
-    public virtual ICollection<Z>? GetEverything()
-    {
-        var entity = _service.GetEverything();
-        if (entity is null || !entity.Any())
-        {
-            throw new ApplicationNoContentException();
+            throw new EduMetricsApiNoContentException();
         }
 
         return _mapper.Map<ICollection<T>, ICollection<Z>>(entity);
@@ -51,10 +41,10 @@ public class ApplicationServiceBaseGeneric<T, Z> : IApplicationServiceBaseGeneri
 
     public virtual Z? Get(int id)
     {
-        var entity = _service.GetById(id);
+        var entity = _service.Get(id);
         if (entity is null)
         {
-            throw new ApplicationNoContentException();
+            throw new EduMetricsApiNoContentException();
         }
 
         return _mapper.Map<T, Z>(entity);
@@ -65,30 +55,30 @@ public class ApplicationServiceBaseGeneric<T, Z> : IApplicationServiceBaseGeneri
         var entity = _service.Get(lambda);
         if (entity is null || !entity.Any())
         {
-            throw new ApplicationNoContentException();
+            throw new EduMetricsApiNoContentException();
         }
 
         return _mapper.Map<ICollection<T>, ICollection<Z>>(entity);
     }
 
-    public ICollection<Z>? GetEverything(Expression<Func<T, bool>>? lambda = null)
+    public ICollection<Z>? GetEverything(Expression<Func<T, bool>>? lambda = null, ICollection<string>? exclude = null)
     {
-        var entity = _service.Get(lambda);
+        var entity = _service.Get(lambda, exclude);
         if (entity is null || !entity.Any())
         {
-            throw new ApplicationNoContentException();
+            throw new EduMetricsApiNoContentException();
         }
 
         return _mapper.Map<ICollection<T>, ICollection<Z>>(entity);
     }
 
-    public Z? GetEverything(int id)
+    public Z? GetEverything(int id, ICollection<string>? exclude = null)
     {
-        var entity = _service.GetById(id);
+        var entity = _service.Get(id, exclude);
         if (entity is null)
         {
-            throw new ApplicationNoContentException();
-        }
+            throw new EduMetricsApiNoContentException();
+        }   
 
         return _mapper.Map<T, Z>(entity);
     }
@@ -99,62 +89,8 @@ public class ApplicationServiceBaseGeneric<T, Z> : IApplicationServiceBaseGeneri
         return _service.Update(entity);
     }
 
-    public virtual bool Update(ICollection<Z> dTO)
-    {
-        var entity = _mapper.Map<ICollection<Z>, ICollection<T>>(dTO);
-        return _service.Update(entity);
-    }
-
-    public ICollection<Z>? GetList(FilterModel filter)
-    {
-        var entity = _service.GetList(filter);
-        if (entity is null)
-        {
-            throw new ApplicationNoContentException();
-        }
-
-        return _mapper.Map<ICollection<T>, ICollection<Z>>(entity);
-    }
-
-    public Z? GetBySellerId(int sellerId)
-    {
-        var entity = _service.GetBySellerId(sellerId);
-
-        return _mapper.Map<T, Z>(entity!.FirstOrDefault()!);
-    }
-
-    public ICollection<Z> GetPaginated(Pagination page, object filter)
-    {
-        var entity = _service.GetPaginated(page, filter);
-
-        if (entity is null)
-        {
-            throw new ApplicationNoContentException();
-        }
-
-        return _mapper.Map<ICollection<T>, ICollection<Z>>(entity);
-
-    }
-
     public virtual bool Remove(int id)
     {
         return _service.Remove(id);
-    }
-
-    public bool RemoveBySellerId(int sellerId)
-    {
-        return _service.RemoveBySellerId(sellerId);
-    }
-
-    public Z? GetBySellerJwtToken()
-    {
-        UserContext section = _serviceUser.GetUserContextData();
-
-        if (section.SellerId is null)
-        {
-            throw new ApplicationUserIsNotASellerException();
-        }
-
-        return GetBySellerId((int)section.SellerId);
     }
 }
