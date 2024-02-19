@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EduMetricsApi.Domain", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EduMetricsApi.CrossCutting.IOC", "src\EduMetricsApi.CrossCutting.IOC\EduMetricsApi.CrossCutting.IOC.csproj", "{A43E34AC-9189-4F93-84A4-C7091FFFE261}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduMetricsApi.Infra.Data", "EduMetricsApi.Infra.Data\EduMetricsApi.Infra.Data.csproj", "{7E6EF4BE-A1B1-4AD5-A5F3-B0E453D4F779}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduMetricsApi.Infra.Data", "src\EduMetricsApi.Infra.Data\EduMetricsApi.Infra.Data.csproj", "{7E6EF4BE-A1B1-4AD5-A5F3-B0E453D4F779}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
