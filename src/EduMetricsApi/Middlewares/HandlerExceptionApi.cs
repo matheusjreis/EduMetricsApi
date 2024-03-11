@@ -37,6 +37,7 @@ public class HandlerExceptionApi
                 EduMetricsApiNotFoundException => (int)HttpStatusCode.NotFound,
                 EduMetricsApiUnauthorizedException => (int)HttpStatusCode.Unauthorized,
                 EduMetricsApiInternalServerErrorException => (int)HttpStatusCode.InternalServerError,
+                EduMetricsApiForbiddenException => (int)HttpStatusCode.Forbidden,
                 EduMetricsApiException => (int)HttpStatusCode.BadRequest,
                 _ => (int)HttpStatusCode.InternalServerError
             };

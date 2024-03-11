@@ -25,4 +25,9 @@ public class EduMetricsApiException : Exception
     {
         public EduMetricsApiUnauthorizedException() : base(ExceptionMessages.UNAUTHORIZED) { }
     }
+    
+    public class EduMetricsApiForbiddenException : EduMetricsApiException
+    {
+        public EduMetricsApiForbiddenException() : base(ExceptionMessages.FORBIDDEN) { }
+    }
 }

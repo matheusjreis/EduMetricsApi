@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EduMetricsApi.Application.DTO;
 using EduMetricsApi.Domain.Entities;
+using EduMetricsApi.Domain.Extensions;
 
 namespace EduMetricsApi.CrossCutting.IOC;
 
@@ -12,6 +13,7 @@ public class MapConfiguration
             .ReverseMap();
         
         config.CreateMap<UserRegisterDto, UserRegister>()
+            .ForMember(dest => dest.Password, opt => opt.MapFrom(src => PasswordExtension.HashPassword(src.Password)))
             .ReverseMap();
     }
 }

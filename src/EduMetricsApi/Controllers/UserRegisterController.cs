@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EduMetricsApi.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("user-register")]
 public class UserRegisterController : ControllerBase
 {
     private readonly IApplicationServiceBase<UserRegister, UserRegisterDto> _applicationService;

@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace EduMetricsApi.Infra.Data.Context;
 
-public class EduMetricsContextFactory
+public class EduMetricsContextFactory : IDesignTimeDbContextFactory<EduMetricsContext>
 {
     public EduMetricsContext CreateDbContext()
     {
@@ -10,15 +11,15 @@ public class EduMetricsContextFactory
         return CreateDbContext(args);
     }
 
+    
+
     public EduMetricsContext CreateDbContext(string[] args)
     {
-        var connection = Environment.GetEnvironmentVariable("EDUMETRICS_DATABASE");
-
         var optionsBuilder = new DbContextOptionsBuilder<EduMetricsContext>();
 
-        //optionsBuilder.UseSqlServer(connection)
-        //              .EnableSensitiveDataLogging(false)
-        //              .EnableDetailedErrors(false);
+        //optionsBuilder.UseNpgsql(connection);
+                      //.EnableSensitiveDataLogging(false)
+                      //.EnableDetailedErrors(false);
 
         return new EduMetricsContext(optionsBuilder.Options, null);
     }

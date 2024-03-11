@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationIOC.LoadServices(builder.Services, builder.Configuration);
-//ConfigurationIOC.LoadDatabase(builder.Services);
+ConfigurationIOC.LoadDatabase(builder.Services);
 ConfigurationIOC.LoadMapper(builder.Services);
 ConfigurationIOC.LoadSwagger(builder.Services, builder.Configuration);
 

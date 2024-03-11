@@ -10,16 +10,19 @@ using System.Net;
 namespace EduMetricsApi.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("login")]
 public class LoginController : ControllerBase
 {
     private readonly IApplicationServiceBase<UserCredentials, UserCredentialsDto> _applicationService;
+    private readonly IApplicationServiceUser _applicationServiceUser;
 
-    public LoginController(IApplicationServiceBase<UserCredentials, UserCredentialsDto> applicationService)
+    public LoginController(IApplicationServiceBase<UserCredentials, UserCredentialsDto> applicationService, IApplicationServiceUser applicationServiceUser)
     {
         _applicationService = applicationService;
+        _applicationServiceUser = applicationServiceUser;
     }
 
     [HttpPost]
-    public IActionResult Post([FromBody] UserCredentialsDto model) => new EduMetricsApiResult(_applicationService.Add(model)) ;
+    [Route("authenticate")]
+    public IActionResult Authenticate([FromBody] UserCredentialsDto user) => new EduMetricsApiResult(_applicationServiceUser.AuthenticateUser(user));
 }

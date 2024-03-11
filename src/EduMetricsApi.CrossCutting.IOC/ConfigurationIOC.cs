@@ -31,9 +31,9 @@ public static class ConfigurationIOC
     {
         var autoMapper = new MapperConfiguration(config =>
         {
-            config.CreateMap<UserCredentialsDto, UserCredentials>()
-                  .ReverseMap();
+            MapConfiguration.LoadAplicationMappers(config);
         });
+
 
         IMapper mapper = autoMapper.CreateMapper();
         services.TryAddSingleton(mapper);
@@ -44,6 +44,8 @@ public static class ConfigurationIOC
         services.TryAddSingleton(config);
 
         services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+        services.AddScoped<IApplicationServiceUser, ApplicationServiceUser>();
         services.AddScoped<IUserContext, UserContext>();
 
         services.AddScoped(typeof(IApplicationServiceBase<,>), typeof(ApplicationServiceBase<,>));
@@ -58,15 +60,7 @@ public static class ConfigurationIOC
 
     public static void LoadDatabase(IServiceCollection services)
     {
-        var connection = Environment.GetEnvironmentVariable("EDUMETRICS_DATABASE");
-
-        //services.AddHealthChecks()
-        //  .AddNpgSql(
-        //      connectionString: connection,
-        //      name: "PostgreSQL",
-        //      failureStatus: HealthStatus.Unhealthy,
-        //      tags: new[] { "db", "postgresql" }
-        //  );
+        string connection = Environment.GetEnvironmentVariable("EDUMETRICS_DATABASE")!;
 
         services.AddDbContext<EduMetricsContext>(options => options.UseNpgsql(connection));
         services.AddNpgsql<EduMetricsContext>(connectionString: connection);
