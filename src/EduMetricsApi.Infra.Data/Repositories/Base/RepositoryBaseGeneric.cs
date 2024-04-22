@@ -123,16 +123,6 @@ public class RepositoryBaseGeneric<T> : IRepositoryBaseGeneric<T> where T : clas
                        .ToList();
     }
 
-    public ICollection<T>? GetByRealty(Guid RealtyId, ICollection<string>? exclude = null)
-    {
-        var entity = _context.Set<T>()
-                             .AsQueryable()
-                             .WhereGen("RealtyId", RealtyId)
-                             .ToList();
-
-        return entity;
-    }
-
     public virtual T? GetByAlternateId(int id)
     {
         var entity = _context.Set<T>()
@@ -145,6 +135,11 @@ public class RepositoryBaseGeneric<T> : IRepositoryBaseGeneric<T> where T : clas
         }
 
         return entity;
+    }
+
+    public int GetNextId(Expression<Func<T, int>> keyExpression)
+    {
+        return _context.Set<T>().Max(keyExpression) + 1;
     }
 
     public virtual async Task<bool> UpdateAsync(T entity)

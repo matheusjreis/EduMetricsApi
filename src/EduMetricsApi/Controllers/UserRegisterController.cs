@@ -12,16 +12,20 @@ namespace EduMetricsApi.Controllers;
 public class UserRegisterController : ControllerBase
 {
     private readonly IApplicationServiceBase<UserRegister, UserRegisterDto> _applicationService;
+    private readonly IApplicationServiceUser _applicationServiceUser;
 
-    public UserRegisterController(IApplicationServiceBase<UserRegister, UserRegisterDto> applicationService)
+    public UserRegisterController(IApplicationServiceBase<UserRegister, UserRegisterDto> applicationService, IApplicationServiceUser applicationServiceUser)
     {
         _applicationService = applicationService;
+        _applicationServiceUser = applicationServiceUser;
     }
 
     [HttpGet]
-    [Route("{id}")]
     public IActionResult Get(int id) => new EduMetricsApiResult(_applicationService.Get(id));
+    
+    [HttpGet("/{email}")]
+    public async Task<IActionResult> GetUserByEmail(string email) => new EduMetricsApiResult(await _applicationServiceUser.GetUserByEmail(email));
 
     [HttpPost]
-    public IActionResult Post([FromBody] UserRegisterDto model) => new EduMetricsApiResult(_applicationService.Add(model));
+    public IActionResult Post([FromBody] UserRegisterDto model) => new EduMetricsApiResult(_applicationServiceUser.RegisterNewUser(model));
 }

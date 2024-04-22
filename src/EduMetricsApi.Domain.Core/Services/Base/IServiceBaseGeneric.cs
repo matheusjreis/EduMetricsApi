@@ -11,6 +11,7 @@ public interface IServiceBaseGeneric<T> where T : class
     public ICollection<T> Get();
     public ICollection<T> Get(Expression<Func<T, bool>>? lambda = null);
     public ICollection<T> Get(Expression<Func<T, bool>>? lambda = null, ICollection<string>? exclude = null);
+    public int GetNextId(Expression<Func<T, int>> keyExpression);
 
     public bool Add(ICollection<T> entities);
     public bool Add(T entity);

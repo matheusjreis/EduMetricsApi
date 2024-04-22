@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EduMetricsApi.Application.Interfaces;
 using EduMetricsApi.Domain.Core.Services.Base;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using static EduMetricsApi.Application.Exceptions.EduMetricsApiException;
 
@@ -82,6 +83,9 @@ public class ApplicationServiceBaseGeneric<T, Z> : IApplicationServiceBaseGeneri
 
         return _mapper.Map<T, Z>(entity);
     }
+
+ 
+
 
     public virtual bool Update(Z dTO)
     {

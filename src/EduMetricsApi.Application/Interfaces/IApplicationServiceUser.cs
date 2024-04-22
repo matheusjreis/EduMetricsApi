@@ -10,4 +10,7 @@ namespace EduMetricsApi.Application.Interfaces;
 public interface IApplicationServiceUser
 {
     public Task<bool> AuthenticateUser(UserCredentialsDto userCredentials);
+    public Task<bool> RegisterNewUser(UserRegisterDto userRegister);
+
+    public Task<UserRegisterDto> GetUserByEmail(string userEmail);
 }

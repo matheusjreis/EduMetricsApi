@@ -29,6 +29,10 @@ public class ServiceBaseGeneric<T> : IServiceBaseGeneric<T> where T : class
         return entity;
     }
 
+    public int GetNextId(Expression<Func<T, int>> keyExpression)
+    {
+        return _repository.GetNextId(keyExpression);
+    }
 
     public T Get(int id, ICollection<string>? exclude = null)
     {

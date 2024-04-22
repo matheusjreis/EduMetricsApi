@@ -5,6 +5,7 @@ namespace EduMetricsApi.Domain.Core.Repositories.Base;
 public interface IRepositoryBaseGeneric<T> where T : class
 {
     public T? GetByAlternateId(int id);
+    public int GetNextId(Expression<Func<T, int>> keyExpression);
     public Task<T?> GetAsync(int id);
     public T? Get(int id, ICollection<string>? exclude = null);
     public T? GetById(int id);
