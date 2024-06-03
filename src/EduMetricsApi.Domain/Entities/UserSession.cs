@@ -15,6 +15,6 @@ public class UserSession : EntityBase
     {
         this.UserId = userId;
         this.LoginDate = DateTime.Now;
-        this.ExpirationDate = DateTime.Now.AddDays(1);
+        this.ExpirationDate = DateTime.Now.AddHours(4);
     }
 }

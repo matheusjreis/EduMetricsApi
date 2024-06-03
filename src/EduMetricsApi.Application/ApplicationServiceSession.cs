@@ -38,7 +38,7 @@ public class ApplicationServiceSession : IApplicationServiceSession
         _httpContextAccessor.HttpContext.Items.TryGetValue("SessionId", out var sessionId);
         _httpContextAccessor.HttpContext.Items.TryGetValue("UserId", out var userId);
 
-        var activatedSession = _serviceUserSession.Get(x => x.Id == Convert.ToInt32(sessionId) && x.UserId == Convert.ToInt32(userId));
+        var activatedSession = _serviceUserSession.Get(x => x.UserId == Convert.ToInt32(userId));
 
         return await Task.FromResult(activatedSession.Where(x => x.ExpirationDate >= DateTime.Now).Any());
     }

@@ -33,7 +33,7 @@ public class ServiceAuth : IServiceAuth
                     new Claim("SessionId",sessionId.ToString()),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             }),
-            Expires = DateTime.Now.AddDays(1),
+            Expires = DateTime.Now.AddHours(4),
             Audience = audience,
             Issuer = issuer,
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
