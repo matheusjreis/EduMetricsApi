@@ -1,4 +1,5 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Cryptography;
 
 namespace EduMetricsApi.Middlewares;
 
@@ -24,8 +25,11 @@ public class SessionMiddleware
 
             if (claims != null)
             {
-                context.Session.SetString("userId", claims.FirstOrDefault(x => x.Type == "UserId")!.Value);
-                context.Session.SetString("username", claims.FirstOrDefault(x => x.Type == "FullName")!.Value);
+                var teste = claims.FirstOrDefault(x => x.Type == "UserId");
+                var teste2 = teste.Value;
+
+                context.Items["UserId"] = Convert.ToInt32(claims.FirstOrDefault(x => x.Type == "UserId")!.Value);
+                context.Items["SessionId"] = Convert.ToInt32(claims.FirstOrDefault(x => x.Type == "SessionId")!.Value);
             }
         }
 

@@ -34,9 +34,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
 app.UseAuthorization();
+
+app.UseAuthentication();
+
+app.UseHttpsRedirection();
 
 app.MapControllers();
 
@@ -46,14 +48,9 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication();
-
-app.UseAuthorization();
-
 app.UseMiddleware<EduMetricsApi.Middlewares.SessionMiddleware>();
 app.UseMiddleware<HandlerExceptionApi>();
 
 app.MapControllers();
-
 
 app.Run();

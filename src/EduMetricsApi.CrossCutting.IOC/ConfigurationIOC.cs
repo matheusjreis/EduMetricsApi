@@ -54,10 +54,12 @@ public static class ConfigurationIOC
 
         services.AddScoped(typeof(IServiceBase<>), typeof(ServiceBase<>));
         services.AddScoped(typeof(IServiceBaseGeneric<>), typeof(ServiceBaseGeneric<>));
-        services.AddScoped<IServiceAuth, ServiceAuth>();
 
         services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
         services.AddScoped(typeof(IRepositoryBaseGeneric<>), typeof(RepositoryBaseGeneric<>));
+
+        services.AddScoped<IApplicationServiceSession, ApplicationServiceSession>();
+        services.AddScoped<IServiceAuth, ServiceAuth>();
     }
 
     public static void LoadDatabase(IServiceCollection services)
