@@ -9,6 +9,7 @@ namespace EduMetricsApi.Controllers;
 
 [ApiController]
 [Route("user-register")]
+[Authorize]
 public class UserRegisterController : ControllerBase
 {
     private readonly IApplicationServiceBase<UserRegister, UserRegisterDto> _applicationService;
@@ -27,5 +28,6 @@ public class UserRegisterController : ControllerBase
     public async Task<IActionResult> GetUserByEmail(string email) => new EduMetricsApiResult(await _applicationServiceUser.GetUserByEmail(email));
 
     [HttpPost]
+    [AllowAnonymous]
     public IActionResult Post([FromBody] UserRegisterDto model) => new EduMetricsApiResult(_applicationServiceUser.RegisterNewUser(model));
 }

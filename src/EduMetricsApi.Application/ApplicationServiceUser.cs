@@ -2,6 +2,7 @@
 using EduMetricsApi.Application.DTO;
 using EduMetricsApi.Application.Exceptions;
 using EduMetricsApi.Application.Interfaces;
+using EduMetricsApi.Domain.Core.Services;
 using EduMetricsApi.Domain.Core.Services.Base;
 using EduMetricsApi.Domain.Entities;
 using EduMetricsApi.Domain.Extensions;
@@ -12,28 +13,37 @@ namespace EduMetricsApi.Application;
 public class ApplicationServiceUser : IApplicationServiceUser
 {
     public IServiceBaseGeneric<UserRegister> _serviceUserRegister;
+    public IServiceBaseGeneric<UserSession> _serviceUserSession;
+    public IServiceAuth _serviceAuth;
     public readonly IMapper _mapper;
 
-    public ApplicationServiceUser(IServiceBaseGeneric<UserRegister> serviceUserRegister, IMapper mapper)
+    public ApplicationServiceUser(IServiceBaseGeneric<UserRegister> serviceUserRegister
+                                , IServiceBaseGeneric<UserSession> serviceUserSession
+                                , IServiceAuth serviceAuth
+                                , IMapper mapper)
     {
         _serviceUserRegister = serviceUserRegister;
+        _serviceUserSession = serviceUserSession;
+        _serviceAuth = serviceAuth;
         _mapper = mapper;
     }
 
-    public async Task<bool> AuthenticateUser(UserCredentialsDto userCredentials)
+    public async Task<string> AuthenticateUser(UserCredentialsDto userCredentials)
     {
         UserRegister? accountByEmail = _serviceUserRegister.Get(x => x.Email == userCredentials.UserName).FirstOrDefault();
 
-        if (accountByEmail is null)
+        if (accountByEmail is not null && accountByEmail.Password == PasswordExtension.HashPassword(userCredentials.UserPassword))
+        {
+            _serviceUserSession.Add(new UserSession(accountByEmail.Id));
+            var session = _serviceUserSession.Get(x => x.UserId == accountByEmail.Id).FirstOrDefault();
+
+            return await Task.FromResult(_serviceAuth.GetToken(accountByEmail.Id, session.Id)) ;
+        }
+        else
+        {
             throw new EduMetricsApiForbiddenException();
-
-        if (accountByEmail.Password == PasswordExtension.HashPassword(userCredentials.UserPassword))
-            return await Task.FromResult(true);
-
-        return await Task.FromResult(false);
+        }
     }
-
-
 
     public async Task<bool> RegisterNewUser(UserRegisterDto userRegister)
     {

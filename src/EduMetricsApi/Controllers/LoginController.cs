@@ -24,6 +24,7 @@ public class LoginController : ControllerBase
 
     [HttpPost]
     [Route("authenticate")]
-    public async Task<IActionResult> Authenticate([FromBody] UserCredentialsDto user) 
+    [AllowAnonymous]
+    public async Task<IActionResult> Authenticate([FromBody] UserCredentialsDto user)
         => new EduMetricsApiResult(await _applicationServiceUser.AuthenticateUser(user));
 }

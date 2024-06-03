@@ -4,6 +4,7 @@ using EduMetricsApi.Application.DTO;
 using EduMetricsApi.Application.Interfaces;
 using EduMetricsApi.Domain.Core.Context;
 using EduMetricsApi.Domain.Core.Repositories.Base;
+using EduMetricsApi.Domain.Core.Services;
 using EduMetricsApi.Domain.Core.Services.Base;
 using EduMetricsApi.Domain.Entities;
 using EduMetricsApi.Domain.Services.Services;
@@ -53,6 +54,7 @@ public static class ConfigurationIOC
 
         services.AddScoped(typeof(IServiceBase<>), typeof(ServiceBase<>));
         services.AddScoped(typeof(IServiceBaseGeneric<>), typeof(ServiceBaseGeneric<>));
+        services.AddScoped<IServiceAuth, ServiceAuth>();
 
         services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
         services.AddScoped(typeof(IRepositoryBaseGeneric<>), typeof(RepositoryBaseGeneric<>));
@@ -73,7 +75,9 @@ public static class ConfigurationIOC
 
     public static void LoadSwagger(IServiceCollection services, IConfiguration config)
     {
-        services.AddSwaggerGen(c => c.LoadOpenApiOptions());
+        services.AddSwaggerGen(c => c.LoadOpenApiOptions())
+                .AddAuthentication(o => o.LoadAuthenticationOptions())
+                .AddJwtBearer(o => o.LoadJwtBearerOptions(config));
     }
 
     private static void LoadOpenApiOptions(this SwaggerGenOptions options)
