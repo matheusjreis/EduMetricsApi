@@ -6,6 +6,7 @@ using EduMetricsApi.Domain.Core.Services;
 using EduMetricsApi.Domain.Core.Services.Base;
 using EduMetricsApi.Domain.Entities;
 using EduMetricsApi.Domain.Extensions;
+using Microsoft.AspNetCore.Http;
 using static EduMetricsApi.Application.Exceptions.EduMetricsApiException;
 
 namespace EduMetricsApi.Application;
@@ -14,15 +15,18 @@ public class ApplicationServiceUser : IApplicationServiceUser
 {
     public IServiceBaseGeneric<UserRegister> _serviceUserRegister;
     public IServiceBaseGeneric<UserSession> _serviceUserSession;
+    private readonly IHttpContextAccessor _httpContextAccessor;
     public IServiceAuth _serviceAuth;
     public readonly IMapper _mapper;
 
     public ApplicationServiceUser(IServiceBaseGeneric<UserRegister> serviceUserRegister
                                 , IServiceBaseGeneric<UserSession> serviceUserSession
                                 , IServiceAuth serviceAuth
+                                , IHttpContextAccessor httpContextAccessor
                                 , IMapper mapper)
     {
         _serviceUserRegister = serviceUserRegister;
+        _httpContextAccessor = httpContextAccessor; 
         _serviceUserSession = serviceUserSession;
         _serviceAuth = serviceAuth;
         _mapper = mapper;
@@ -66,5 +70,12 @@ public class ApplicationServiceUser : IApplicationServiceUser
             throw new EduMetricsApiNotFoundException();
 
         return _mapper.Map<UserRegister, UserRegisterDto>(accountByEmail);
+    }
+
+    public async Task<UserRegisterDto?> GetLoggedUser()
+    {
+        _httpContextAccessor.HttpContext.Items.TryGetValue("UserId", out var userId);
+        UserRegister user = _serviceUserRegister.GetById(Convert.ToInt32(userId));
+        return _mapper.Map<UserRegister, UserRegisterDto>(user);
     }
 }

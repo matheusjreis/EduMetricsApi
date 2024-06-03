@@ -22,9 +22,13 @@ public class UserRegisterController : ControllerBase
 
     [HttpGet]
     public IActionResult Get(int id) => new EduMetricsApiResult(_applicationService.Get(id));
-    
+
     [HttpGet("/{email}")]
     public async Task<IActionResult> GetUserByEmail(string email) => new EduMetricsApiResult(await _applicationServiceUser.GetUserByEmail(email));
+
+    [HttpGet]
+    [Route("logged")]
+    public async Task<IActionResult> GetLoggedUser() => new EduMetricsApiResult(await _applicationServiceUser.GetLoggedUser());
 
     [HttpPost]
     public IActionResult Post([FromBody] UserRegisterDto model) => new EduMetricsApiResult(_applicationServiceUser.RegisterNewUser(model));
