@@ -5,4 +5,5 @@ namespace EduMetricsApi.Application.Interfaces;
 public interface IApplicationServiceSession
 {
     public Task<bool> IsSessionActivated();
+    public Task<bool> CloseSession();
 }

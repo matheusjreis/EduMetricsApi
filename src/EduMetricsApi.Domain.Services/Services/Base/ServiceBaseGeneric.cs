@@ -123,4 +123,9 @@ public class ServiceBaseGeneric<T> : IServiceBaseGeneric<T> where T : class
     public void BeginTransaction() => _repository.BeginTransaction();
     public void CommitTransaction() => _repository.CommitTransaction();
     public void RollbackTransaction() => _repository.RollbackTransaction();
+
+    public bool Update(ICollection<T> entity)
+    {
+        return _repository.Update(entity);
+    }
 }

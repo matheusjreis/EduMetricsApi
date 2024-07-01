@@ -19,5 +19,9 @@ public class SessionController : ControllerBase
 
     [HttpPost]
     [Route("is-user-session-activated")]
-    public async Task<IActionResult> Post() => new EduMetricsApiResult(await _applicationServiceSession.IsSessionActivated());
+    public async Task<IActionResult> Post() => new EduMetricsApiResult(await _applicationServiceSession.IsSessionActivated()); 
+    
+    [HttpPost]
+    [Route("close")]
+    public async Task<IActionResult> CloseSession() => new EduMetricsApiResult(await _applicationServiceSession.CloseSession());
 }

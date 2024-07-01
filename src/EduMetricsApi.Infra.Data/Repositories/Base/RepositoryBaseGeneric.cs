@@ -186,4 +186,10 @@ public class RepositoryBaseGeneric<T> : IRepositoryBaseGeneric<T> where T : clas
             _context.Database.RollbackTransaction();
         }
     }
+
+    public bool Update(ICollection<T> entity)
+    {
+        _context.Set<T>().UpdateRange(entity);
+        return _context.SaveChanges() > 0;
+    }
 }

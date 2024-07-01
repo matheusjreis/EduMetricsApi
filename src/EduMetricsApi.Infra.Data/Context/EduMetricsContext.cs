@@ -31,7 +31,6 @@ public class EduMetricsContext : DbContext
         {
             //optionsBuilder.UseNpgsql(connection);
             optionsBuilder.UseNpgsql(connection, b => b.MigrationsAssembly("EduMetricsApi"));
-
         }
 
         optionsBuilder.ConfigureWarnings(warnings =>
@@ -41,6 +40,7 @@ public class EduMetricsContext : DbContext
 
         new EduMetricsContextFactory().CreateDbContext();
     }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

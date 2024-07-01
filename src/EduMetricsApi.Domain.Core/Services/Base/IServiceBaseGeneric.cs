@@ -18,6 +18,7 @@ public interface IServiceBaseGeneric<T> where T : class
     public Task<bool> AddAsync(T entity);
 
     public bool Update(T entity);
+    public bool Update(ICollection<T> entity);
     public Task<bool> UpdateAsync(T entity);
 
     public bool Remove(int id);

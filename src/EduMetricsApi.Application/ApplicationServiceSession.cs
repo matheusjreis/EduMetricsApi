@@ -42,4 +42,15 @@ public class ApplicationServiceSession : IApplicationServiceSession
 
         return await Task.FromResult(activatedSession.Where(x => x.ExpirationDate >= DateTime.Now).Any());
     }
+
+    public async Task<bool> CloseSession()
+    {
+        _httpContextAccessor.HttpContext.Items.TryGetValue("SessionId", out var sessionId);
+        _httpContextAccessor.HttpContext.Items.TryGetValue("UserId", out var userId);
+
+        List<UserSession> allUserSessions =  _serviceUserSession.Get(x => x.UserId == Convert.ToInt32(userId)).ToList();
+        allUserSessions.ForEach(x => x.ExpirationDate = DateTime.Now);
+
+        return _serviceUserSession.Update(allUserSessions);
+    }
 }
