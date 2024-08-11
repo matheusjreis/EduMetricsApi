@@ -2,6 +2,6 @@
 
 public class ComputerInformationsDto
 {
-    public string UserIp { get; set; }
+    public string Ip { get; set; }
     public string Browser { get; set; }
 }

@@ -22,6 +22,8 @@ public class LoginController : ControllerBase
         _applicationServiceUser = applicationServiceUser;
     }
 
+
+    //TODO: RECEIVE BROWSER INFOS ON HTTP HEADER
     [HttpPost]
     [Route("authenticate")]
     [AllowAnonymous]

@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\EduMetricsApi.Application\EduMetricsApi.Application.csproj" />
     <ProjectReference Include="..\EduMetricsApi.Domain.Core\EduMetricsApi.Domain.Core.csproj" />
+    <ProjectReference Include="..\EduMetricsApi.Infra.Data\EduMetricsApi.Infra.Data.csproj" />
   </ItemGroup>
 
 </Project>

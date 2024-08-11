@@ -34,15 +34,15 @@ public class ApplicationServiceUser : IApplicationServiceUser
 
     public async Task<string> AuthenticateUser(UserCredentialsDto userCredentials)
     {
-        ComputerInformations computerInformations = _mapper.Map<ComputerInformationsDto, ComputerInformations>(userCredentials.ComputerInformations);
         UserRegister? UserAccount = _serviceUserRegister.Get(x => x.Email == userCredentials.UserName).FirstOrDefault();
 
         if (UserAccount is not null && UserAccount.Password == PasswordExtension.HashPassword(userCredentials.UserPassword))
         {
-            _serviceUserSession.Add(new UserSession(UserAccount.Id, computerInformations));
+            _serviceUserSession.Add(new UserSession(UserAccount.Id, _httpContextAccessor));
+
             UserSession? session = _serviceUserSession.Get(x => x.UserId == UserAccount.Id).FirstOrDefault();
 
-            return await Task.FromResult(_serviceAuth.GetToken(UserAccount.Id, session!.Id, computerInformations));
+            return await Task.FromResult(_serviceAuth.GetToken(UserAccount.Id, session!.Id, _httpContextAccessor));
         }
         else
         {

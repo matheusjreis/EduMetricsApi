@@ -9,6 +9,4 @@ public class UserCredentialsDto
 
     [JsonProperty("userpassword")]
     public string UserPassword { get; set; }
-
-    public ComputerInformationsDto ComputerInformations { get; set; }
 }

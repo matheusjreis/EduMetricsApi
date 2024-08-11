@@ -37,7 +37,7 @@ public class ApplicationServiceSession : IApplicationServiceSession
     {
         _httpContextAccessor.HttpContext.Items.TryGetValue("SessionId", out var sessionId);
         _httpContextAccessor.HttpContext.Items.TryGetValue("UserId", out var userId);
-        _httpContextAccessor.HttpContext.Items.TryGetValue("UserIp", out var userIp);
+        _httpContextAccessor.HttpContext.Items.TryGetValue("ComputerIp", out var computerIp);
 
         var activatedSession = _serviceUserSession.Get(x => x.UserId == Convert.ToInt32(userId));
 
@@ -48,7 +48,7 @@ public class ApplicationServiceSession : IApplicationServiceSession
     {
         _httpContextAccessor.HttpContext.Items.TryGetValue("SessionId", out var sessionId);
         _httpContextAccessor.HttpContext.Items.TryGetValue("UserId", out var userId);
-        _httpContextAccessor.HttpContext.Items.TryGetValue("UserIp", out var userIp);
+        _httpContextAccessor.HttpContext.Items.TryGetValue("ComputerIp", out var computerIp);
 
         List<UserSession> allUserSessions =  _serviceUserSession.Get(x => x.UserId == Convert.ToInt32(userId)).ToList();
         allUserSessions.ForEach(x => x.ExpirationDate = DateTime.Now);

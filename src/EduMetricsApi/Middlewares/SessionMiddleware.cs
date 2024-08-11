@@ -26,8 +26,8 @@ public class SessionMiddleware
             if (claims != null)
             {
                 context.Items["UserId"] = Convert.ToInt32(claims.FirstOrDefault(x => x.Type == "UserId")!.Value);
-                context.Items["UserIp"] = Convert.ToInt32(claims.FirstOrDefault(x => x.Type == "UserIp")!.Value);
-                context.Items["Browser"] = Convert.ToInt32(claims.FirstOrDefault(x => x.Type == "Browser")!.Value);
+                context.Items["ComputerIp"] = Convert.ToInt32(claims.FirstOrDefault(x => x.Type == "ComputerIp")!.Value);
+                context.Items["ComputerBrowser"] = Convert.ToInt32(claims.FirstOrDefault(x => x.Type == "ComputerBrowser")!.Value);
                 context.Items["SessionId"] = Convert.ToInt32(claims.FirstOrDefault(x => x.Type == "SessionId")!.Value);
             }
         }

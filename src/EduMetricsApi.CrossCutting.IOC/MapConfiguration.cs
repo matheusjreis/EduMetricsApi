@@ -9,11 +9,11 @@ public class MapConfiguration
 {
     public static void LoadAplicationMappers(IMapperConfigurationExpression config)
     {
-        config.CreateMap<UserCredentialsDto, UserCredentials>()
-            .ReverseMap();
+        config.CreateMap<UserCredentialsDto, UserCredentials>().ReverseMap();
+
+        config.CreateMap<ComputerInformationsDto, ComputerInformations>().ReverseMap();
         
-        config.CreateMap<UserRegister, UserInformationsDto>()
-            .ReverseMap();
+        config.CreateMap<UserRegister, UserInformationsDto>().ReverseMap();
 
         config.CreateMap<UserRegisterDto, UserRegister>()
             .ForMember(dest => dest.Password, opt => opt.MapFrom(src => PasswordExtension.HashPassword(src.Password)))
