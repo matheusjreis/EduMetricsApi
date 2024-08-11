@@ -1,4 +1,5 @@
 ﻿using EduMetricsApi.Domain.Core.Services;
+using EduMetricsApi.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -16,7 +17,7 @@ public class ServiceAuth : IServiceAuth
         _configuration = configuration;
     }
 
-    public string GetToken(int userId, int sessionId)
+    public string GetToken(int userId, int sessionId, ComputerInformations computerInformations)
     {
         var jwtTokenHandler = new JwtSecurityTokenHandler();
 
@@ -31,6 +32,8 @@ public class ServiceAuth : IServiceAuth
             {
                     new Claim("UserId",userId.ToString()),
                     new Claim("SessionId",sessionId.ToString()),
+                    new Claim("UserIp",computerInformations.UserIp),
+                    new Claim("Browser",computerInformations.Browser),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             }),
             Expires = DateTime.Now.AddHours(4),

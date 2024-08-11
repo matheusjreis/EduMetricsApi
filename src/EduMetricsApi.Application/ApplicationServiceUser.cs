@@ -34,14 +34,15 @@ public class ApplicationServiceUser : IApplicationServiceUser
 
     public async Task<string> AuthenticateUser(UserCredentialsDto userCredentials)
     {
-        UserRegister? accountByEmail = _serviceUserRegister.Get(x => x.Email == userCredentials.UserName).FirstOrDefault();
+        ComputerInformations computerInformations = _mapper.Map<ComputerInformationsDto, ComputerInformations>(userCredentials.ComputerInformations);
+        UserRegister? UserAccount = _serviceUserRegister.Get(x => x.Email == userCredentials.UserName).FirstOrDefault();
 
-        if (accountByEmail is not null && accountByEmail.Password == PasswordExtension.HashPassword(userCredentials.UserPassword))
+        if (UserAccount is not null && UserAccount.Password == PasswordExtension.HashPassword(userCredentials.UserPassword))
         {
-            _serviceUserSession.Add(new UserSession(accountByEmail.Id));
-            var session = _serviceUserSession.Get(x => x.UserId == accountByEmail.Id).FirstOrDefault();
+            _serviceUserSession.Add(new UserSession(UserAccount.Id, computerInformations));
+            UserSession? session = _serviceUserSession.Get(x => x.UserId == UserAccount.Id).FirstOrDefault();
 
-            return await Task.FromResult(_serviceAuth.GetToken(accountByEmail.Id, session.Id)) ;
+            return await Task.FromResult(_serviceAuth.GetToken(UserAccount.Id, session!.Id, computerInformations));
         }
         else
         {
@@ -62,20 +63,27 @@ public class ApplicationServiceUser : IApplicationServiceUser
         return await Task.FromResult(_serviceUserRegister.Add(mappedRegister));
     }
 
-    public async Task<UserRegisterDto> GetUserByEmail(string userEmail)
+    public async Task<UserInformationsDto> GetUserByEmail(string userEmail)
     {
         UserRegister? accountByEmail = _serviceUserRegister.Get(x => x.Email == userEmail).FirstOrDefault();
 
         if (accountByEmail is null)
             throw new EduMetricsApiNotFoundException();
 
-        return _mapper.Map<UserRegister, UserRegisterDto>(accountByEmail);
+        return _mapper.Map<UserRegister, UserInformationsDto>(accountByEmail);
     }
 
-    public async Task<UserRegisterDto?> GetLoggedUser()
+    public async Task<UserInformationsDto?> GetLoggedUser()
     {
         _httpContextAccessor.HttpContext.Items.TryGetValue("UserId", out var userId);
         UserRegister user = _serviceUserRegister.GetById(Convert.ToInt32(userId));
-        return _mapper.Map<UserRegister, UserRegisterDto>(user);
+        return _mapper.Map<UserRegister, UserInformationsDto>(user);
+    }
+
+    public async Task<UserInformationsDto> Get(int userRegister)
+    {
+       var user = _serviceUserRegister.GetById(userRegister);
+
+        return await Task.FromResult(_mapper.Map<UserRegister, UserInformationsDto>(user));
     }
 }

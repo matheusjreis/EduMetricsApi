@@ -29,7 +29,6 @@ public class EduMetricsContext : DbContext
         }
         else
         {
-            //optionsBuilder.UseNpgsql(connection);
             optionsBuilder.UseNpgsql(connection, b => b.MigrationsAssembly("EduMetricsApi"));
         }
 
@@ -44,6 +43,8 @@ public class EduMetricsContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Ignore<ComputerInformations>();
 
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(EduMetricsContext).Assembly);
     }

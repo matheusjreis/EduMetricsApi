@@ -12,6 +12,9 @@ public class MapConfiguration
         config.CreateMap<UserCredentialsDto, UserCredentials>()
             .ReverseMap();
         
+        config.CreateMap<UserRegister, UserInformationsDto>()
+            .ReverseMap();
+
         config.CreateMap<UserRegisterDto, UserRegister>()
             .ForMember(dest => dest.Password, opt => opt.MapFrom(src => PasswordExtension.HashPassword(src.Password)))
             .ReverseMap();

@@ -21,7 +21,7 @@ public class UserRegisterController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult Get(int id) => new EduMetricsApiResult(_applicationService.Get(id));
+    public async Task<IActionResult> Get(int id) => new EduMetricsApiResult(await _applicationServiceUser.Get(id));
 
     [HttpGet("/{email}")]
     public async Task<IActionResult> GetUserByEmail(string email) => new EduMetricsApiResult(await _applicationServiceUser.GetUserByEmail(email));

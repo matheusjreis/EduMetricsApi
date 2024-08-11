@@ -11,6 +11,7 @@ public interface IApplicationServiceUser
 {
     public Task<string> AuthenticateUser(UserCredentialsDto userCredentials);
     public Task<bool> RegisterNewUser(UserRegisterDto userRegister);
-    public Task<UserRegisterDto> GetUserByEmail(string userEmail);
-    public Task<UserRegisterDto> GetLoggedUser();
+    public Task<UserInformationsDto> Get(int userRegister);
+    public Task<UserInformationsDto> GetUserByEmail(string userEmail);
+    public Task<UserInformationsDto> GetLoggedUser();
 }

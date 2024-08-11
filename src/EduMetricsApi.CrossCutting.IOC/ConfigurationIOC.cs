@@ -35,7 +35,6 @@ public static class ConfigurationIOC
             MapConfiguration.LoadAplicationMappers(config);
         });
 
-
         IMapper mapper = autoMapper.CreateMapper();
         services.TryAddSingleton(mapper);
     }
