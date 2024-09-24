@@ -17,10 +17,42 @@ public class UserSession : EntityBase
     public UserSession(int userId, IHttpContextAccessor httpContextAccessor)
     {
         this.ComputerIp = httpContextAccessor.HttpContext?.Request?.Headers["computerIp"];
-        this.ComputerBrowser = httpContextAccessor.HttpContext?.Request?.Headers["computerBrowser"];
+        this.ComputerBrowser = GetBrowserName(httpContextAccessor.HttpContext?.Request?.Headers["User-Agent"]!);
         this.UserId = userId;
         this.LoginDate = DateTime.Now;
         this.ExpirationDate = DateTime.Now.AddHours(4);
+    }
+
+    public string GetBrowserName(string userAgent)
+    {
+        string browser;
+
+        if (userAgent.Contains("Opera") || userAgent.Contains("Opr"))
+        {
+            browser = "Opera";
+        }
+        else if (userAgent.Contains("Edg"))
+        {
+            browser = "Edge";
+        }
+        else if (userAgent.Contains("Chrome"))
+        {
+            browser = "Chrome";
+        }
+        else if (userAgent.Contains("Safari"))
+        {
+            browser = "Safari";
+        }
+        else if (userAgent.Contains("Firefox"))
+        {
+            browser = "Firefox";
+        }
+        else
+        {
+            browser = "unknown";
+        }
+
+        return browser;
     }
 
     public UserSession() { }

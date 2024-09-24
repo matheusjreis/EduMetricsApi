@@ -35,7 +35,7 @@ public class ServiceAuth : IServiceAuth
                     new Claim("UserId",userId.ToString()),
                     new Claim("SessionId",sessionId.ToString()),
                     new Claim("UserIp",httpContextAccessor.HttpContext?.Request?.Headers["computerIp"].NullToString()!),
-                    new Claim("Browser",httpContextAccessor.HttpContext?.Request?.Headers["computerBrowser"].NullToString()!),
+                    new Claim("Browser",ObjectExtension.GetBrowserName(httpContextAccessor.HttpContext?.Request?.Headers["User-Agent"]!)),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             }),
             Expires = DateTime.Now.AddHours(4),
