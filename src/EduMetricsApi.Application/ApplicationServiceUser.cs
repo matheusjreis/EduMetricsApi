@@ -26,7 +26,7 @@ public class ApplicationServiceUser : IApplicationServiceUser
                                 , IMapper mapper)
     {
         _serviceUserRegister = serviceUserRegister;
-        _httpContextAccessor = httpContextAccessor; 
+        _httpContextAccessor = httpContextAccessor;
         _serviceUserSession = serviceUserSession;
         _serviceAuth = serviceAuth;
         _mapper = mapper;
@@ -36,28 +36,25 @@ public class ApplicationServiceUser : IApplicationServiceUser
     {
         UserRegister? accountByEmail = _serviceUserRegister.Get(x => x.Email == userCredentials.UserName).FirstOrDefault();
 
-        if (accountByEmail is not null && accountByEmail.Password == PasswordExtension.HashPassword(userCredentials.UserPassword))
-        {
-            _serviceUserSession.Add(new UserSession(accountByEmail.Id));
-            var session = _serviceUserSession.Get(x => x.UserId == accountByEmail.Id).FirstOrDefault();
-
-            return await Task.FromResult(_serviceAuth.GetToken(accountByEmail.Id, session.Id)) ;
-        }
-        else
-        {
+        if (accountByEmail is null || accountByEmail.Password != PasswordExtension.HashPassword(userCredentials.UserPassword))
             throw new EduMetricsApiForbiddenException();
-        }
+
+        _serviceUserSession.Add(new UserSession(accountByEmail.Id));
+
+        UserSession session = _serviceUserSession.Get(x => x.UserId == accountByEmail.Id).FirstOrDefault()!;
+
+        return await Task.FromResult(_serviceAuth.GetToken(accountByEmail.Id, session.Id));
     }
 
     public async Task<bool> RegisterNewUser(UserRegisterDto userRegister)
     {
         UserRegister? accountByEmail = _serviceUserRegister.Get(x => x.Email == userRegister.Email).FirstOrDefault();
 
-        if(accountByEmail is not null)
+        if (accountByEmail is not null)
             throw new EduMetricsApiException("Usuário já possui cadastro!");
 
         UserRegister mappedRegister = _mapper.Map<UserRegisterDto, UserRegister>(userRegister);
-        mappedRegister.Id = _serviceUserRegister.GetNextId(x => x.Id);        
+        mappedRegister.Id = _serviceUserRegister.GetNextId(x => x.Id);
 
         return await Task.FromResult(_serviceUserRegister.Add(mappedRegister));
     }
@@ -69,13 +66,14 @@ public class ApplicationServiceUser : IApplicationServiceUser
         if (accountByEmail is null)
             throw new EduMetricsApiNotFoundException();
 
-        return _mapper.Map<UserRegister, UserRegisterDto>(accountByEmail);
+        return await Task.FromResult(_mapper.Map<UserRegister, UserRegisterDto>(accountByEmail));
     }
 
     public async Task<UserRegisterDto?> GetLoggedUser()
     {
         _httpContextAccessor.HttpContext.Items.TryGetValue("UserId", out var userId);
         UserRegister user = _serviceUserRegister.GetById(Convert.ToInt32(userId));
-        return _mapper.Map<UserRegister, UserRegisterDto>(user);
+
+        return await Task.FromResult(_mapper.Map<UserRegister, UserRegisterDto>(user));
     }
 }

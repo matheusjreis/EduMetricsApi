@@ -6,6 +6,7 @@ using static EduMetricsApi.Application.Exceptions.EduMetricsApiException;
 
 namespace EduMetricsApi.Domain.Services.Services.Base;
 
+// TODO: MAKE ALL THOSE METHODS INTO ASYNC ONES.
 public class ServiceBaseGeneric<T> : IServiceBaseGeneric<T> where T : class
 {
     private readonly IRepositoryBaseGeneric<T> _repository;
@@ -101,7 +102,6 @@ public class ServiceBaseGeneric<T> : IServiceBaseGeneric<T> where T : class
 
         return entity;
     }
-
 
     public virtual bool Add(T entity) => _repository.Add(entity);
     public virtual bool Add(ICollection<T> entities) => _repository.Add(entities);

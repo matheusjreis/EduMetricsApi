@@ -1,4 +1,6 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using Microsoft.Extensions.Primitives;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Security.Cryptography;
 
 namespace EduMetricsApi.Middlewares;
@@ -16,18 +18,15 @@ public class SessionMiddleware
 
     public async Task Invoke(HttpContext context)
     {
-        var token = context.Request.GetTypedHeaders().Headers.Authorization;
+        StringValues token = context.Request.GetTypedHeaders().Headers.Authorization;
 
         if (!string.IsNullOrEmpty(token))
         {
-            var jwtSecurityToken = new JwtSecurityTokenHandler().ReadJwtToken(token.ToString().Replace("Bearer", "").Trim());
-            var claims = jwtSecurityToken.Claims.ToList();
+            JwtSecurityToken jwtSecurityToken = new JwtSecurityTokenHandler().ReadJwtToken(token.ToString().Replace("Bearer", "").Trim());
+            List<Claim> claims = jwtSecurityToken.Claims.ToList();
 
-            if (claims != null)
+            if (!claims.Any())
             {
-                var teste = claims.FirstOrDefault(x => x.Type == "UserId");
-                var teste2 = teste.Value;
-
                 context.Items["UserId"] = Convert.ToInt32(claims.FirstOrDefault(x => x.Type == "UserId")!.Value);
                 context.Items["SessionId"] = Convert.ToInt32(claims.FirstOrDefault(x => x.Type == "SessionId")!.Value);
             }

@@ -51,6 +51,6 @@ public class ApplicationServiceSession : IApplicationServiceSession
         List<UserSession> allUserSessions =  _serviceUserSession.Get(x => x.UserId == Convert.ToInt32(userId)).ToList();
         allUserSessions.ForEach(x => x.ExpirationDate = DateTime.Now);
 
-        return _serviceUserSession.Update(allUserSessions);
+        return await Task.FromResult(_serviceUserSession.Update(allUserSessions));
     }
 }

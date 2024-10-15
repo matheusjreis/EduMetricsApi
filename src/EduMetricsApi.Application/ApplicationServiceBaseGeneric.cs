@@ -84,9 +84,6 @@ public class ApplicationServiceBaseGeneric<T, Z> : IApplicationServiceBaseGeneri
         return _mapper.Map<T, Z>(entity);
     }
 
- 
-
-
     public virtual bool Update(Z dTO)
     {
         var entity = _mapper.Map<Z, T>(dTO);
