@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -13,7 +14,7 @@ public static class PasswordExtension
     {
         using (SHA256 sha256Hash = SHA256.Create())
         {
-            byte[] data = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
+            byte[] data = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password.SaltPassword()));
             StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < data.Length; i++)
             {
@@ -21,6 +22,17 @@ public static class PasswordExtension
             }
 
             return stringBuilder.ToString();
+        }
+    }
+
+    public static string SaltPassword(this string password)
+    {
+        using (var rng = RandomNumberGenerator.Create())
+        {
+            byte[] salt = new byte[16];
+            rng.GetBytes(salt);
+
+            return Encoding.UTF8.GetString(salt) + password;
         }
     }
 }
